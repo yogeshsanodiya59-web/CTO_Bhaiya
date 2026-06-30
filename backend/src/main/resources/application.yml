@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://db.jocfhsetgbwgaruojagr.supabase.co:5432/postgres
+    username: postgres
+    password: iqre7tiur4@59
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update # Automatically update schema (e.g. add password column)
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+
+server:
+  port: 8080
+
+logging:
+  level:
+    org.springframework.security: DEBUG
