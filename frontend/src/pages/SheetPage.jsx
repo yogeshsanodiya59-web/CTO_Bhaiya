@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { PatternAccordion } from '../components/PatternAccordion';
 import { ProgressCard } from '../components/ProgressCard';
 
-const API_URL = 'http://localhost:8080/api';
+const API_URL = import.meta.env.DEV ? 'http://localhost:8080/api' : 'https://cto-bhaiya.onrender.com/api';
 
 export const SheetPage = () => {
   const [session, setSession] = useState(null);
@@ -53,7 +53,7 @@ export const SheetPage = () => {
       if (!token) return;
 
       try {
-        const res = await fetch('http://localhost:8080/api/progress', {
+        const res = await fetch(`${API_URL}/progress`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -84,7 +84,7 @@ export const SheetPage = () => {
     setUserProgress(prev => ({...prev, [problemId]: newStatus}));
 
     try {
-      await fetch(`http://localhost:8080/api/progress/${problemId}`, {
+      await fetch(`${API_URL}/progress/${problemId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
