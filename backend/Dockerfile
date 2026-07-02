@@ -12,4 +12,4 @@ COPY --from=build /app/target/dsatracker-0.0.1-SNAPSHOT.jar app.jar
 
 # Render sets the PORT env variable automatically
 EXPOSE 8080
-ENTRYPOINT ["java","-jar","app.jar"]
+ENTRYPOINT ["java","-Djava.net.preferIPv4Stack=true","-jar","app.jar"]
