@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://db.jocfhsetgbwgaruojagr.supabase.co:5432/postgres
-    username: postgres
-    password: iqre7tiur4@59
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://db.jocfhsetgbwgaruojagr.supabase.co:5432/postgres}
+    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:iqre7tiur4@59}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
@@ -14,7 +14,7 @@ spring:
 
 
 server:
-  port: 8080
+  port: ${PORT:8080}
 
 logging:
   level:
