@@ -9,4 +9,5 @@ import java.util.UUID;
 public interface UserProgressRepository extends JpaRepository<UserProgress, Long> {
     List<UserProgress> findByUserId(UUID userId);
     Optional<UserProgress> findByUserIdAndProblemId(UUID userId, Long problemId);
+    List<UserProgress> findByCompletedTrueAndCompletedAtBetween(java.time.OffsetDateTime start, java.time.OffsetDateTime end);
 }
