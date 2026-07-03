@@ -46,9 +46,6 @@ function App() {
               <div className="flex items-center gap-6">
                 <Link to="/sheet" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">Course</Link>
                 <Link to="/leaderboard" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">Leaderboard</Link>
-                <a href="https://buymeacoffee.com/your-username" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 bg-[#FFDD00] hover:bg-[#FFEA5C] text-black px-4 py-1.5 rounded-lg text-sm font-bold transition-colors shadow-lg shadow-[#FFDD00]/20">
-                  ☕ Support
-                </a>
                 {user ? (
                   <div className="flex items-center gap-4">
                     <div className="flex items-center gap-1.5 bg-gray-800/50 text-emerald-400 px-3 py-1.5 rounded-full border border-gray-700 font-medium">
@@ -99,6 +96,9 @@ function App() {
                         Start the challenge
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
                       </Link>
+                      <a href="https://buymeacoffee.com/your-username" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 bg-[#FFDD00] hover:bg-[#FFEA5C] text-black px-8 py-3.5 rounded-full font-bold transition-colors shadow-lg shadow-[#FFDD00]/20">
+                        ☕ Buy me a coffee
+                      </a>
                       {!user && (
                         <button onClick={() => setIsAuthModalOpen(true)} className="bg-gray-800 hover:bg-gray-700 text-white px-8 py-3.5 rounded-full font-semibold transition-colors border border-gray-700">
                           Sign in to track progress
