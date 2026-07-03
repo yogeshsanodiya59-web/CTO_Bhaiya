@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/stats")
+@org.springframework.web.bind.annotation.CrossOrigin(origins = "*")
 public class StatsController {
 
     @Autowired
