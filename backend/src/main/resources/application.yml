@@ -22,3 +22,9 @@ server:
 logging:
   level:
     org.springframework.security: DEBUG
+
+resend:
+  api:
+    key: ${RESEND_API_KEY}
+  from:
+    email: ${RESEND_FROM_EMAIL:hello@ctobhaiya.com}

@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-@Service
+// Removed @Service so Spring uses ResendEmailServiceImpl instead
 public class MockEmailServiceImpl implements EmailService {
 
     private static final Logger logger = LoggerFactory.getLogger(MockEmailServiceImpl.class);
