@@ -99,7 +99,7 @@ function App() {
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
                       </Link>
                       <button onClick={() => setIsUpiModalOpen(true)} className="flex items-center gap-2 bg-[#FFDD00] hover:bg-[#FFEA5C] text-black px-8 py-3.5 rounded-full font-bold transition-colors shadow-lg shadow-[#FFDD00]/20">
-                        ☕ Support via UPI
+                        ☕ Buy me a coffee
                       </button>
                       {!user && (
                         <button onClick={() => setIsAuthModalOpen(true)} className="bg-gray-800 hover:bg-gray-700 text-white px-8 py-3.5 rounded-full font-semibold transition-colors border border-gray-700">

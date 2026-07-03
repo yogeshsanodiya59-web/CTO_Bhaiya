@@ -23,9 +23,9 @@ export function UpiModal({ isOpen, onClose }) {
           <div className="w-12 h-12 bg-[#FFDD00]/10 rounded-full flex items-center justify-center mx-auto mb-4 border border-[#FFDD00]/20">
             <span className="text-2xl">☕</span>
           </div>
-          <h2 className="text-xl font-bold text-white mb-2">Support CTO Bhaiya</h2>
+          <h2 className="text-xl font-bold text-white mb-2">Support me</h2>
           <p className="text-gray-400 text-sm mb-6 leading-relaxed">
-            Scan the QR code with any UPI app (GPay, PhonePe, Paytm) to buy me a coffee!
+            Buy me a coffee!
           </p>
 
           {/* QR Code */}
@@ -54,14 +54,6 @@ export function UpiModal({ isOpen, onClose }) {
                 Copy
               </button>
             </div>
-            
-            {/* Direct App Link (Works perfectly on mobile devices) */}
-            <a 
-              href={upiLink}
-              className="block w-full bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-3 rounded-xl transition-colors mt-2 shadow-lg shadow-emerald-500/20"
-            >
-              Open UPI App
-            </a>
           </div>
         </div>
       </div>
