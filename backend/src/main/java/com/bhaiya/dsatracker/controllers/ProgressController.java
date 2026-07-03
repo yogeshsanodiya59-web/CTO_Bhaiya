@@ -47,6 +47,17 @@ public class ProgressController {
                 ));
     }
 
+    @GetMapping("/bookmarks")
+    public Map<Long, Boolean> getUserBookmarks(@AuthenticationPrincipal String email) {
+        User user = getOrCreateUser(email);
+        List<UserProgress> progressList = userProgressRepository.findByUserId(user.getId());
+        return progressList.stream()
+                .collect(Collectors.toMap(
+                        p -> p.getProblem().getId(),
+                        UserProgress::getBookmarked
+                ));
+    }
+
     @PostMapping("/{problemId}")
     public ResponseEntity<?> toggleProgress(@PathVariable Long problemId, @RequestBody Map<String, Boolean> body, @AuthenticationPrincipal String email) {
         User user = getOrCreateUser(email);
@@ -67,6 +78,41 @@ public class ProgressController {
 
         userProgressRepository.save(progress);
 
-        return ResponseEntity.ok(Map.of("success", true, "completed", completed));
+        if (completed) {
+            java.time.LocalDate today = java.time.LocalDate.now();
+            java.time.LocalDate lastActive = user.getLastActiveDate();
+            if (lastActive == null || lastActive.isBefore(today.minusDays(1))) {
+                user.setCurrentStreak(1);
+            } else if (lastActive.equals(today.minusDays(1))) {
+                user.setCurrentStreak((user.getCurrentStreak() != null ? user.getCurrentStreak() : 0) + 1);
+            }
+            // if lastActive == today, streak remains same
+            user.setLastActiveDate(today);
+            userRepository.save(user);
+        }
+
+        return ResponseEntity.ok(Map.of("success", true, "completed", completed, "streak", user.getCurrentStreak()));
+    }
+
+    @PostMapping("/{problemId}/bookmark")
+    public ResponseEntity<?> toggleBookmark(@PathVariable Long problemId, @RequestBody Map<String, Boolean> body, @AuthenticationPrincipal String email) {
+        User user = getOrCreateUser(email);
+        Boolean bookmarked = body.getOrDefault("bookmarked", true);
+
+        Optional<Problem> problemOpt = problemRepository.findById(problemId);
+        if (problemOpt.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        UserProgress progress = userProgressRepository.findByUserIdAndProblemId(user.getId(), problemId)
+                .orElse(new UserProgress());
+
+        progress.setUser(user);
+        progress.setProblem(problemOpt.get());
+        progress.setBookmarked(bookmarked);
+
+        userProgressRepository.save(progress);
+
+        return ResponseEntity.ok(Map.of("success", true, "bookmarked", bookmarked));
     }
 }

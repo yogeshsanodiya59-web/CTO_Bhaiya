@@ -23,6 +23,8 @@ public class UserProgress {
 
     private Boolean completed = false;
 
+    private Boolean bookmarked = false;
+
     @Column(name = "completed_at")
     private OffsetDateTime completedAt;
 
@@ -33,8 +35,10 @@ public class UserProgress {
     public void setUser(User user) { this.user = user; }
     public Problem getProblem() { return problem; }
     public void setProblem(Problem problem) { this.problem = problem; }
-    public Boolean getCompleted() { return completed; }
+    public Boolean getCompleted() { return completed != null ? completed : false; }
     public void setCompleted(Boolean completed) { this.completed = completed; }
+    public Boolean getBookmarked() { return bookmarked != null ? bookmarked : false; }
+    public void setBookmarked(Boolean bookmarked) { this.bookmarked = bookmarked; }
     public OffsetDateTime getCompletedAt() { return completedAt; }
     public void setCompletedAt(OffsetDateTime completedAt) { this.completedAt = completedAt; }
 }

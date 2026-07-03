@@ -9,7 +9,9 @@ CREATE TABLE public.users (
     email VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     name VARCHAR(255),
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    current_streak INTEGER DEFAULT 0,
+    last_active_date DATE
 );
 
 CREATE TABLE public.patterns (

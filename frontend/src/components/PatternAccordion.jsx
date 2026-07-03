@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { ChevronDown, ChevronUp, CheckCircle, Circle, PlaySquare, ExternalLink } from 'lucide-react';
+import { ChevronDown, ChevronUp, CheckCircle, Circle, PlaySquare, ExternalLink, Bookmark } from 'lucide-react';
 
-const ProblemRow = ({ problem, isCompleted, onToggle }) => {
+const ProblemRow = ({ problem, isCompleted, isBookmarked, onToggle, onToggleBookmark }) => {
   return (
     <div className="flex items-center justify-between py-3 px-4 border-b border-gray-800 hover:bg-gray-800/50 transition-colors">
       <div className="flex items-center gap-4 flex-1">
@@ -10,6 +10,12 @@ const ProblemRow = ({ problem, isCompleted, onToggle }) => {
           className="text-emerald-500 hover:text-emerald-400 focus:outline-none transition-colors"
         >
           {isCompleted ? <CheckCircle size={20} /> : <Circle size={20} className="text-gray-500" />}
+        </button>
+        <button
+          onClick={() => onToggleBookmark(problem.id)}
+          className={`focus:outline-none transition-colors ${isBookmarked ? 'text-yellow-500 hover:text-yellow-400' : 'text-gray-500 hover:text-gray-400'}`}
+        >
+          <Bookmark size={20} fill={isBookmarked ? 'currentColor' : 'none'} />
         </button>
         <span className="text-gray-400 w-8 text-sm">{String(problem.number).padStart(2, '0')}</span>
         <span className={`font-medium ${isCompleted ? 'text-gray-400 line-through' : 'text-gray-200'}`}>
@@ -41,8 +47,8 @@ const ProblemRow = ({ problem, isCompleted, onToggle }) => {
   );
 };
 
-export const PatternAccordion = ({ pattern, problems, userProgress, onToggleProblem }) => {
-  const [isOpen, setIsOpen] = useState(true);
+export const PatternAccordion = ({ pattern, problems, userProgress, userBookmarks, onToggleProblem, onToggleBookmark }) => {
+  const [isOpen, setIsOpen] = useState(false);
   
   const completedCount = problems.filter(p => userProgress[p.id]).length;
   
@@ -81,7 +87,9 @@ export const PatternAccordion = ({ pattern, problems, userProgress, onToggleProb
               key={problem.id} 
               problem={problem} 
               isCompleted={!!userProgress[problem.id]}
+              isBookmarked={!!userBookmarks[problem.id]}
               onToggle={onToggleProblem}
+              onToggleBookmark={onToggleBookmark}
             />
           ))}
         </div>
