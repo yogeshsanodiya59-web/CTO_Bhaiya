@@ -1,28 +1,27 @@
 package com.bhaiya.dsatracker.services;
 
+import jakarta.mail.internet.MimeMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.*;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
 @Service
-public class ResendEmailServiceImpl implements EmailService {
+public class GmailEmailServiceImpl implements EmailService {
 
-    private static final Logger logger = LoggerFactory.getLogger(ResendEmailServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(GmailEmailServiceImpl.class);
 
-    @Value("${resend.api.key}")
-    private String resendApiKey;
+    @Autowired
+    private JavaMailSender javaMailSender;
 
-    @Value("${resend.from.email}")
+    @Value("${spring.mail.username}")
     private String fromEmail;
 
-    private final RestTemplate restTemplate = new RestTemplate();
     private final Random random = new Random();
 
     @Override
@@ -82,22 +81,18 @@ public class ResendEmailServiceImpl implements EmailService {
         }
 
         try {
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
-            headers.setBearerAuth(resendApiKey);
+            MimeMessage message = javaMailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+            
+            helper.setFrom("CTO Bhaiya <" + fromEmail + ">");
+            helper.setTo(toEmail);
+            helper.setSubject(subject);
+            helper.setText(htmlBody, true); // true indicates HTML content
 
-            Map<String, Object> requestBody = new HashMap<>();
-            requestBody.put("from", "CTO Bhaiya <" + fromEmail + ">");
-            requestBody.put("to", new String[]{toEmail});
-            requestBody.put("subject", subject);
-            requestBody.put("html", htmlBody);
-
-            HttpEntity<Map<String, Object>> request = new HttpEntity<>(requestBody, headers);
-
-            ResponseEntity<String> response = restTemplate.postForEntity("https://api.resend.com/emails", request, String.class);
-            logger.info("Resend Email sent to {}, status: {}", toEmail, response.getStatusCode());
+            javaMailSender.send(message);
+            logger.info("Gmail Email sent successfully to {}", toEmail);
         } catch (Exception e) {
-            logger.error("Failed to send email to {}", toEmail, e);
+            logger.error("Failed to send Gmail to {}", toEmail, e);
         }
     }
 }
