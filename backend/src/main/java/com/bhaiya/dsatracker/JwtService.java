@@ -15,9 +15,12 @@ import java.util.function.Function;
 @Service
 public class JwtService {
 
-    // Ideally, this should be in application.yml and be at least 256 bits (32 chars) long.
-    private static final String SECRET = "45689101112131415161718192021222324252627282930313233343536373839";
-    private final Key key = Keys.hmacShaKeyFor(SECRET.getBytes());
+    @org.springframework.beans.factory.annotation.Value("${jwt.secret:45689101112131415161718192021222324252627282930313233343536373839}")
+    private String secret;
+
+    private Key getKey() {
+        return Keys.hmacShaKeyFor(secret.getBytes());
+    }
 
     public String generateToken(String email) {
         Map<String, Object> claims = new HashMap<>();
@@ -30,7 +33,7 @@ public class JwtService {
                 .setSubject(subject) // email
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24)) // 1 day
-                .signWith(key, SignatureAlgorithm.HS256)
+                .signWith(getKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
 
@@ -49,7 +52,7 @@ public class JwtService {
     }
 
     private Claims extractAllClaims(String token) {
-        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
+        return Jwts.parserBuilder().setSigningKey(getKey()).build().parseClaimsJws(token).getBody();
     }
 
     private Boolean isTokenExpired(String token) {

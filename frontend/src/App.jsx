@@ -5,7 +5,7 @@ import { SheetPage } from './pages/SheetPage';
 import { LeaderboardPage } from './pages/LeaderboardPage';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
-const GOOGLE_CLIENT_ID = "237427489891-b2bj3frtm63cummpah9otpcms1l2qdli.apps.googleusercontent.com"; // TODO: Replace with real Client ID
+const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || "237427489891-b2bj3frtm63cummpah9otpcms1l2qdli.apps.googleusercontent.com";
 
 function App() {
   const [user, setUser] = useState(null);
