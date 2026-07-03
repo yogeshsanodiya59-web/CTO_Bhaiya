@@ -76,11 +76,9 @@ export function LeaderboardPage() {
                     </td>
                     <td className="px-6 py-4">
                       <div className="font-medium text-white text-base">
-                        {entry.name || 'Anonymous User'}
-                      </div>
-                      <div className="text-xs text-gray-500 mt-1">
-                        {/* Only showing part of email for privacy if we want, or full email as per initial spec */}
-                        {entry.email}
+                        {entry.name 
+                          ? (entry.name.length > 5 ? entry.name.slice(0, 5) + '***' : entry.name) 
+                          : 'Anon***'}
                       </div>
                     </td>
                     <td className="px-6 py-4 text-right">
